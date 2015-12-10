@@ -34,6 +34,9 @@ volatile unsigned *gpio;
 void setup_io();
 
 
+//
+// Cleanup some GPIO pins
+//
 void cleanup()
 {
   int g;
@@ -44,6 +47,10 @@ void cleanup()
   }
 } 
 
+//
+// Receiver, should be run in seperate thread eventually
+// Args: list of GPIO pins to use, name of the file to write to
+//
 void receiver(int pins[], char *filename)
 {
   int i, size;
@@ -73,25 +80,9 @@ int main(int argc, char **argv)
 {
   int g,rep;
  
-  // Set up gpi pointer for direct register access
   setup_io();
  
-  // Switch GPIO 7..11 to output mode
- 
- /************************************************************************\
-  * You are about to change the GPIO settings of your computer.          *
-  * Mess this up and it will stop working!                               *
-  * It might be a good idea to 'sync' before running this program        *
-  * so at least you still have your code changes written to the SD-card! *=7; tra<=11; tra++)
-  {
-     for (g=7; g<=11; g++)
-     {
-       GPIO_CLR = 1<<g;
-       INP_GPIO(g);
-     }
-  }
-
- \************************************************************************/
+  //Set GPIO pins 7-11 to 0 and Input
   int tra;
   for (tra=7; tra<=11; tra++)
   {
@@ -110,6 +101,7 @@ int main(int argc, char **argv)
     OUT_GPIO(g);
   }
  
+  // Switch GPIO pin 10 on and off with a 1 second delay
  /*  for (rep=0; rep<10; rep++)
   {
     for (g=10; g<11; g++)
@@ -123,8 +115,12 @@ int main(int argc, char **argv)
       sleep(1);
     }
   } */
+  
+  //Receiver shit
   int pinnetjes[2] = {10,11};
   receiver(pinnetjes, "yolo.txt");
+  
+  //Cleanup some GPIO pins
   cleanup();
   return 0;
  
