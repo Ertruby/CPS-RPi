@@ -158,3 +158,50 @@ void setup_io()
   gpio = (volatile unsigned *)gpio_map;
  
 } // setup_io
+
+
+
+
+
+// Good stuff
+void sender() 
+{
+  // 14 en 15
+  OUT_GPIO(14);
+  OUT_GPIO(15);
+  int msg[23] = {1,0,0,1,1,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,1,1};
+  int clock = 1;
+  int i = 0;
+  for (i; i < sizeof (int_array) / sizeof (int); i++)
+  {
+	GPIO_SET = clock<<14;
+	GPIO_SET = msg[i]<<15;
+	if (clock == 0) 
+	{
+		clock = 1;
+	} else 
+	{
+		clock = 0;
+	}
+	sleep(0.01)
+  }
+}
+
+void receiver()
+{
+ // 23 en 24 
+  IN_GPIO(23);
+  IN_GPIO(24);
+  int lastSeen = 0;
+  while(1)
+  {
+	if (GET_GPIO(23) != lastSeen)
+	{
+	  int rec = GET_GPIO(24);
+	  lastSeen = GET_GPIO(23);
+	  printf("Received: %d", rec);
+	  fflush(0);
+	}
+	
+  }
+} 
