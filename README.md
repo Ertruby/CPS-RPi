@@ -1,5 +1,18 @@
 # CPS-RPi
-Raspberry Pi stuff for CPS module
+Raspberry Pi code for sending data using infrared LEDs and receivers. Part of the CPS module Utwente.
+
+receiverMarkv2.c is the receiver process
+senderMarkv2.c is the transmitter process
+
+How to use:
+1. compile both files
+2. empty output.txt
+3. execute the receiver
+4. execute the transmitter/sender
+5. check output.txt to see whether the correct data was received
+
+
+
 
 
 Low Level Programming of the Raspberry Pi in C
